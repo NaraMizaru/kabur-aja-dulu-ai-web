@@ -1,1 +1,1 @@
-let nama = "fairuz"
+let nama = "fairuz janda perawan"
