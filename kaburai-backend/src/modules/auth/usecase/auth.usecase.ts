@@ -13,6 +13,10 @@ const register = async (data: RegisterDTO) => {
         throw new Error("User creation failed")
     }
 
+    if (!res.session) {
+        throw new Error("Session creation failed")
+    }
+
     await db.insert(users).values({
         id: user.id,
         email: user.email!,
@@ -24,7 +28,7 @@ const register = async (data: RegisterDTO) => {
 const login = async (data: LoginDTO) => {
     const {email, password} = data
 
-    return authRepo.signIn({email, password})
+    const res = await authRepo.signIn({email, password})
 }
 
 export const authUseCase = {

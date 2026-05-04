@@ -14,7 +14,7 @@ const register = async (req: Request, res: Response) => {
         const data = await authUseCase.register(result.data)
         return successResponse(res, data, "User registered successfully", 201)
     } catch (error: any) {
-        return errorResponse(res, error);
+        return errorResponse(res, error.message);
     }
 }
 
@@ -29,7 +29,7 @@ const login = async (req: Request, res: Response) => {
         const data = await authUseCase.login(result.data)
         return successResponse(res, data, "User logged in successfully")
     } catch (error: any) {
-        return errorResponse(res, error);
+        return errorResponse(res, error.message);
     }
 }
 
