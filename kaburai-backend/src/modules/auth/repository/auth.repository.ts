@@ -1,7 +1,7 @@
-import {LoginDTO} from "../domain/auth.domain";
+import {LoginDTO, RegisterDTO} from "../domain/auth.domain";
 import supabase from "../../../config/supabase";
 
-const signUp = async ({email, password}: LoginDTO) => {
+const signUp = async ({email, password}: RegisterDTO) => {
     const {data, error} = await supabase.auth.signUp({
         email,
         password,

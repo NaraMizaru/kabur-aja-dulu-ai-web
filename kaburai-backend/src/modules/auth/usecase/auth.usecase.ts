@@ -28,7 +28,7 @@ const register = async (data: RegisterDTO) => {
 const login = async (data: LoginDTO) => {
     const {email, password} = data
 
-    const res = await authRepo.signIn({email, password})
+    await authRepo.signIn({email, password})
 }
 
 export const authUseCase = {
