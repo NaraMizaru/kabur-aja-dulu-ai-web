@@ -1,25 +1,25 @@
 {
   "name": "kabur-aja-dulu-ai-web",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "concurrently \"cd kaburai-backend && npm run dev\" \"cd kaburai-frontend && npm run dev\""
-  },
+  "author": "",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/NaraMizaru/kabur-aja-dulu-ai-web.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
+  "main": "index.js",
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  },
   "bugs": {
     "url": "https://github.com/NaraMizaru/kabur-aja-dulu-ai-web/issues"
   },
+  "description": "",
   "homepage": "https://github.com/NaraMizaru/kabur-aja-dulu-ai-web#readme",
-  "devDependencies": {
-    "concurrently": "^9.2.1"
-  }
+  "keywords": [],
+  "license": "ISC",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "concurrently \"cd kaburai-backend && npm run dev\" \"cd kaburai-frontend && npm run dev\""
+  },
+  "type": "module"
 }
