@@ -1,37 +1,32 @@
-import {LoginDTO, RegisterDTO} from "../domain/auth.domain";
-import {authRepo} from "../repository/auth.repository";
-import {db} from "../../../database/db";
-import {users} from "../../../database/schema/users.schema";
+import { LoginDTO, RegisterDTO } from "../domain/auth.domain";
+import { authRepo } from "../repository/auth.repository";
+import { db } from "../../../database/db";
+import { users } from "../../../database/schema/users.schema";
 
 const register = async (data: RegisterDTO) => {
-    const {email, password} = data
+  const { email, password } = data;
 
-    const res = await authRepo.signUp({email, password})
-    const user = res.user
+  const res = await authRepo.signUp({ email, password });
+  const user = res.user;
 
-    if (!user) {
-        throw new Error("User creation failed")
-    }
+  if (!user) {
+    throw new Error("User creation failed");
+  }
 
-    if (!res.session) {
-        throw new Error("Session creation failed")
-    }
+  if (!res.session) {
+    throw new Error("Session creation failed");
+  }
 
-    await db.insert(users).values({
-        id: user.id,
-        email: user.email!,
-    })
-
-    return res
-}
+  return res;
+};
 
 const login = async (data: LoginDTO) => {
-    const {email, password} = data
+  const { email, password } = data;
 
-    await authRepo.signIn({email, password})
-}
+  return await authRepo.signIn({ email, password });
+};
 
 export const authUseCase = {
-    register,
-    login,
-}
+  register,
+  login,
+};

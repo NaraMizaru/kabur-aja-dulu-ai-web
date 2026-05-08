@@ -10,7 +10,7 @@ const extract = async (file: Express.Multer.File) => {
 
   return {
     filename: file.filename,
-    text,
+    extracted_text: text,
   };
 };
 
