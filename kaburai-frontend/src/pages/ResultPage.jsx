@@ -60,7 +60,6 @@ const ResultPage = ({ onBack }) => {
           </div>
         </div>
 
-        {/* Kolom Kanan */}
         <div className="lg:col-span-8 space-y-6">
           <div className="bg-[#171B26] border border-slate-800 rounded-3xl p-8">
             <h3 className="text-xl font-bold mb-10 flex items-center gap-3">
@@ -70,7 +69,6 @@ const ResultPage = ({ onBack }) => {
               Roadmap Pengembangan Karier
             </h3>
 
-            {/* Jalur Roadmap Sejajar Kiri */}
             <div className="relative pl-12 border-l border-slate-700 space-y-12 ml-4">
               <div className="relative">
                 <div className="absolute -left-[65px] top-0 w-10 h-10 bg-[#0F111A] border-2 border-blue-500 rounded-full flex items-center justify-center font-bold text-sm z-10">1</div>
@@ -90,7 +88,6 @@ const ResultPage = ({ onBack }) => {
             </div>
           </div>
 
-          {/* Feedback Section */}
           <div className="bg-[#171B26] border border-slate-800 rounded-3xl p-8">
             <h3 className="text-xl font-bold mb-8 flex items-center gap-3">
               <svg className="text-yellow-500" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
