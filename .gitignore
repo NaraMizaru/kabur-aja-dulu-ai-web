@@ -39,3 +39,6 @@ temp/
 .supabase/
 
 docker-compose.override.yml
+
+storage/
+**/storage/
