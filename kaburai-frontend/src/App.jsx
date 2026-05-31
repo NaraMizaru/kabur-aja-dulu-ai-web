@@ -1,43 +1,23 @@
-import React, { useState } from 'react';
-import UploadPage from './pages/UploadPage';
-import ResultPage from './pages/ResultPage';
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
-import ResetPasswordPage from './pages/ResetPasswordPage';
+import {Route, Routes} from "react-router-dom";
+import UploadPage from "./pages/UploadPage.jsx";
+import LoginPage from "./pages/LoginPage.jsx";
+import RegisterPage from "./pages/RegisterPage.jsx";
+import ResetPasswordPage from "./pages/ResetPasswordPage.jsx";
+import ResultPage from "./pages/ResultPage.jsx";
+
 
 function App() {
-  const [currentPage, setCurrentPage] = useState('upload');
-
-  const navigateTo = (pageName) => {
-    setCurrentPage(pageName);
-  };
-
-  return (
-    <div className="min-h-screen bg-[#0F111A]">
-      {currentPage === 'upload' && (
-        <UploadPage 
-          onUploadSuccess={() => navigateTo('result')} 
-          onNavigate={navigateTo} 
-        />
-      )}
-
-      {currentPage === 'login' && (
-        <LoginPage onNavigate={navigateTo} />
-      )}
-
-      {currentPage === 'register' && (
-        <RegisterPage onNavigate={navigateTo} />
-      )}
-
-      {currentPage === 'reset-password' && (
-        <ResetPasswordPage onNavigate={navigateTo} />
-      )}
-
-      {currentPage === 'result' && (
-        <ResultPage onBack={() => navigateTo('upload')} />
-      )}
-    </div>
-  );
+    return (
+        <div className="min-h-screen bg-[#0F111A]">
+            <Routes>
+                <Route path={'/'} element={<UploadPage/>}/>
+                <Route path={'/login'} element={<LoginPage/>}/>
+                <Route path={'/register'} element={<RegisterPage/>}/>
+                <Route path={'/reset-password'} element={<ResetPasswordPage/>}/>
+                <Route path={'/result'} element={<ResultPage/>}/>
+            </Routes>
+        </div>
+    );
 }
 
 export default App;

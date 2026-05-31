@@ -1,115 +1,258 @@
-import React from 'react';
+import {useState} from "react";
+import {Link} from "react-router-dom";
+import Footer from "../components/Footer.jsx";
 
-const ResultPage = ({ onBack }) => {
-  return (
-    <div className="min-h-screen bg-[#0F111A] text-white font-sans antialiased p-8 lg:p-12">
-      <header className="max-w-7xl mx-auto flex justify-between items-center mb-10">
-        <div className="flex items-center gap-2">
-          <h1 className="text-2xl font-bold text-[#00E0FF]">KaburAjaDulu.Ai</h1>
-          <span className="text-slate-500 text-xl">/ Analisis CV</span>
-        </div>
-        <button 
-          onClick={onBack}
-          className="flex items-center gap-2 bg-[#1E2533] hover:bg-[#2A3345] px-5 py-2 rounded-lg font-bold transition-all text-sm border border-slate-700"
-        >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M11 17l-5-5m0 0l5-5m-5 5h12" />
-          </svg>
-          Upload Ulang
-        </button>
-      </header>
+const dummyResult = {
+    filename: "1780240457490-CV Nadhif Musyafa Alfarel.pdf",
+    role: "Software Engineering",
+    skill_extracted: ["Git", "Kotlin", "Laravel", "MySQL", "Problem Solving", "SQL"],
+    gap_analysis: {
+        match_score: 7,
+        skills_dimiliki: ["SQL"],
+        top_skill_tidak_dimiliki: [
+            "Python",
+            "Communication",
+            "Machine Learning",
+            "R",
+            "AWS",
+            "Excel",
+            "Tableau",
+            "Agile",
+            "Azure",
+            "Spark",
+            "ETL",
+            "Power BI",
+            "Project Management",
+            "Java",
+        ],
+    },
+    roadmap: {
+        1: "Strengthen Kotlin fundamentals and explore Android Jetpack components. (2 weeks)",
+        2: "Deepen Laravel knowledge: explore Eloquent ORM and RESTful API creation. (3 weeks)",
+        3: "Master advanced SQL: learn indexing, optimization, and transaction management. (2 weeks)",
+        4: "Build a full-stack project using Kotlin/Spring Boot (backend) and Flutter (frontend). (6 weeks)",
+        5: "Learn basic cloud deployment (e.g., Heroku, AWS Elastic Beanstalk) for your projects. (2 weeks)",
+        6: "Contribute to open-source projects, focusing on bug fixes and small features. (Ongoing)",
+        7: "Prepare for technical interviews: practice coding challenges on LeetCode/HackerRank. (Ongoing)",
+    },
+    cv_feedback: {
+        ats_score: 0,
+        readability_score: 0,
+        ats_feedback:
+            "CV ini memiliki potensi yang baik untuk di-parse oleh ATS karena menggunakan struktur yang jelas dan umum. Namun, beberapa frasa dalam 'Profil Singkat' dan 'Pengalaman' bisa lebih spesifik dan berorientasi pada kata kunci teknis yang sering dicari ATS.",
+        layout_feedback:
+            "Tata letak CV ini profesional, bersih, dan mudah dibaca. Pembagian kolom yang jelas antara informasi pribadi/profil dan pengalaman/pendidikan sangat efektif.",
+        improvements: [
+            "Tambahkan bagian 'Sertifikasi' jika ada, atau sebutkan kursus relevan yang telah diselesaikan.",
+            "Ubah profil singkat menjadi lebih spesifik dan berbasis kata kunci teknis.",
+            "Deskripsikan kontribusi pengalaman dengan lebih kuantitatif atau spesifik.",
+            "Tambahkan tools seperti Jira, Trello, GitHub Actions, atau CI/CD jika pernah digunakan.",
+            "Tambahkan kata kunci teknis seperti RESTful API jika relevan.",
+        ],
+    },
+};
 
-      <main className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6">
-        
-        {/* Kolom Kiri */}
-        <div className="lg:col-span-4 space-y-6">
-          <div className="bg-[#171B26] border border-blue-500/30 rounded-3xl p-8 text-center shadow-[0_0_50px_-12px_rgba(59,130,246,0.3)]">
-            <h3 className="text-xl font-bold mb-4">Match Score</h3>
-            <div className="text-7xl font-black text-[#00E0FF] mb-4">-%</div>
-            <p className="text-slate-400 italic text-sm">"pekerjaan yang mungkin bisa didapatkan"</p>
-          </div>
+const ResultPage = () => {
+    const [showAllRoadmap, setShowAllRoadmap] = useState(false);
 
-          <div className="bg-[#171B26] border border-slate-800 rounded-3xl p-8">
-            <h3 className="text-lg font-bold mb-6 flex items-center gap-3">
-              <span className="w-2 h-6 bg-blue-500 rounded-full"></span> Skill Terdeteksi
-            </h3>
-            <div className="flex flex-wrap gap-2">
-              {['skill 1', 'skill 2', 'skill 3', 'skill 4'].map(skill => (
-                <span key={skill} className="px-4 py-1.5 bg-[#1E2533] border border-blue-900/50 rounded-full text-xs font-bold text-blue-300">
-                  {skill}
-                </span>
-              ))}
-            </div>
-          </div>
+    const data = dummyResult;
+    const roadmapEntries = Object.entries(data.roadmap);
+    const displayedRoadmap = showAllRoadmap
+        ? roadmapEntries
+        : roadmapEntries.slice(0, 3);
 
-          <div className="bg-[#171B26] border border-red-500/20 rounded-3xl p-8 relative overflow-hidden">
-            <div className="absolute left-0 top-0 w-1.5 h-full bg-red-500"></div>
-            <h3 className="text-lg font-bold mb-6 text-red-100 flex items-center gap-3">
-              <span className="w-2 h-6 bg-red-500 rounded-full"></span> Skill Gap
-            </h3>
-            <div className="space-y-4">
-              <div className="flex items-center gap-3">
-                <span className="text-[10px] font-black bg-red-900/50 text-red-500 px-2 py-0.5 rounded border border-red-500/30">HIGH</span>
-                <span className="text-sm text-slate-300">skill gap 1</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <span className="text-[10px] font-black bg-orange-900/50 text-orange-500 px-2 py-0.5 rounded border border-orange-500/30">MED</span>
-                <span className="text-sm text-slate-300">skill gap 2</span>
-              </div>
-            </div>
-          </div>
-        </div>
+    return (
+        <div className="min-h-screen bg-[#0F111A] text-white font-sans antialiased">
+            <header className="sticky top-0 z-50 border-b border-slate-800/70 bg-[#0F111A]/80 backdrop-blur-xl">
+                <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-10">
+                    <div>
+                        <h1 className="text-base font-extrabold tracking-tight text-white sm:text-xl">
+                            KaburAjaDulu<span className="text-[#00CFFF]">.Ai</span>
+                        </h1>
+                    </div>
 
-        <div className="lg:col-span-8 space-y-6">
-          <div className="bg-[#171B26] border border-slate-800 rounded-3xl p-8">
-            <h3 className="text-xl font-bold mb-10 flex items-center gap-3">
-              <svg className="text-[#00E0FF]" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <path d="M9 18l6-6-6-6" />
-              </svg>
-              Roadmap Pengembangan Karier
-            </h3>
-
-            <div className="relative pl-12 border-l border-slate-700 space-y-12 ml-4">
-              <div className="relative">
-                <div className="absolute -left-[65px] top-0 w-10 h-10 bg-[#0F111A] border-2 border-blue-500 rounded-full flex items-center justify-center font-bold text-sm z-10">1</div>
-                <div className="p-6 bg-[#1E2533]/50 border border-slate-700 rounded-2xl w-full max-w-lg">
-                  <h4 className="text-[#00E0FF] font-bold mb-2">poin pertama</h4>
-                  <p className="text-sm text-slate-400">isi poin pertama</p>
+                    <Link
+                        to={'/'}
+                        className="rounded-full border border-slate-700 bg-[#1E2533]/70 px-4 py-2 text-xs font-bold text-slate-200 transition hover:border-[#00CFFF]/60 hover:bg-[#2A3345] sm:px-5 sm:text-sm"
+                    >
+                        Upload Ulang
+                    </Link>
                 </div>
-              </div>
+            </header>
 
-              <div className="relative">
-                <div className="absolute -left-[65px] top-0 w-10 h-10 bg-[#2A3345] border-2 border-slate-600 rounded-full flex items-center justify-center font-bold text-sm z-10">2</div>
-                <div className="p-6 bg-[#1E2533]/50 border border-slate-700 rounded-2xl w-full max-w-lg">
-                  <h4 className="text-white font-bold mb-2">poin kedua</h4>
-                  <p className="text-sm text-slate-400">isi poin kedua</p>
-                </div>
-              </div>
-            </div>
-          </div>
+            <main className="relative mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-10">
+                <div
+                    className="absolute left-1/2 top-20 -z-10 h-[420px] w-[420px] -translate-x-1/2 rounded-full bg-[#00CFFF]/10 blur-3xl"/>
 
-          <div className="bg-[#171B26] border border-slate-800 rounded-3xl p-8">
-            <h3 className="text-xl font-bold mb-8 flex items-center gap-3">
-              <svg className="text-yellow-500" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" />
-              </svg>
-              AI CV Feedback
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="p-6 bg-[#0F111A] border border-slate-800 rounded-2xl text-sm">
-                <h4 className="text-[#00E0FF] font-bold mb-2">poin feedback</h4>
-                <p className="text-slate-400">isi poin feedback 1</p>
-              </div>
-              <div className="p-6 bg-[#0F111A] border border-slate-800 rounded-2xl text-sm">
-                <h4 className="text-[#00E0FF] font-bold mb-2">poin feedback</h4>
-                <p className="text-slate-400">isi poin feedback 2</p>
-              </div>
-            </div>
-          </div>
+                <section className="mb-8">
+                    <h2 className="max-w-3xl text-3xl font-extrabold tracking-tight text-white sm:text-4xl lg:text-5xl">
+                        Roadmap karier kamu sudah siap.
+                    </h2>
+
+                    <p className="mt-4 max-w-2xl text-sm leading-relaxed text-slate-400 sm:text-base">
+                        Berikut ringkasan skill, gap kemampuan, rekomendasi pengembangan, dan feedback untuk
+                        meningkatkan kualitas CV kamu.
+                    </p>
+                </section>
+
+                <section className="grid grid-cols-1 gap-6 lg:grid-cols-12">
+                    <aside className="space-y-6 lg:col-span-4">
+                        <div
+                            className="rounded-[32px] border border-[#00CFFF]/30 bg-[#171B26]/90 p-8 text-center shadow-[0_0_50px_-18px_rgba(0,207,255,0.55)]">
+                            <p className="mb-3 text-sm font-bold text-slate-400">Match Score</p>
+                            <div className="mb-3 text-7xl font-black tracking-tight text-[#00E0FF]">
+                                {data.gap_analysis.match_score}/10
+                            </div>
+                            <p className="text-sm italic leading-relaxed text-slate-400">
+                                Target role: {data.role}
+                            </p>
+                        </div>
+
+                        <div className="rounded-[32px] border border-slate-800 bg-[#171B26]/90 p-7">
+                            <h3 className="mb-5 flex items-center gap-3 text-lg font-bold">
+                                <span className="h-6 w-1.5 rounded-full bg-[#00CFFF]"/>
+                                Skill Terdeteksi
+                            </h3>
+
+                            <div className="flex flex-wrap gap-2">
+                                {data.skill_extracted.map((skill) => (
+                                    <span
+                                        key={skill}
+                                        className="rounded-full border border-[#00CFFF]/20 bg-[#00CFFF]/10 px-4 py-2 text-xs font-bold text-[#00CFFF]"
+                                    >
+                                        {skill}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="rounded-[32px] border border-slate-800 bg-[#171B26]/90 p-7">
+                            <h3 className="mb-5 flex items-center gap-3 text-lg font-bold">
+                                <span className="h-6 w-1.5 rounded-full bg-emerald-400"/>
+                                Skill Paling Sesuai
+                            </h3>
+
+                            <div className="flex flex-wrap gap-2">
+                                {data.gap_analysis.skills_dimiliki.map((skill) => (
+                                    <span
+                                        key={skill}
+                                        className="rounded-full border border-emerald-400/20 bg-emerald-400/10 px-4 py-2 text-xs font-bold text-emerald-300"
+                                    >
+                                        {skill}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div
+                            className="relative overflow-hidden rounded-[32px] border border-red-500/20 bg-[#171B26]/90 p-7">
+                            <div className="absolute left-0 top-0 h-full w-1.5 bg-red-500"/>
+
+                            <h3 className="mb-5 flex items-center gap-3 text-lg font-bold text-red-100">
+                                <span className="h-6 w-1.5 rounded-full bg-red-500"/>
+                                Skill Gap
+                            </h3>
+
+                            <div className="flex flex-wrap gap-2">
+                                {data.gap_analysis.top_skill_tidak_dimiliki.map((skill) => (
+                                    <span
+                                        key={skill}
+                                        className="rounded-full border border-red-500/20 bg-red-500/10 px-3 py-1.5 text-xs font-bold text-red-300"
+                                    >
+                                        {skill}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+                    </aside>
+
+                    <section className="space-y-6 lg:col-span-8">
+                        <div className="rounded-[32px] border border-slate-800 bg-[#171B26]/90 p-6 sm:p-8">
+                            <h3 className="mb-8 text-xl font-bold">
+                                Roadmap Pengembangan Karier
+                            </h3>
+
+                            <div className="space-y-4">
+                                {displayedRoadmap.map(([step, text]) => (
+                                    <div
+                                        key={step}
+                                        className="flex gap-4 rounded-[28px] border border-slate-800 bg-[#0F111A]/70 p-5 sm:p-6 items-center"
+                                    >
+                                        <div
+                                            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-[#00CFFF]/40 bg-[#00CFFF]/10 text-sm font-black text-[#00CFFF]"
+                                        >
+                                            {step}
+                                        </div>
+
+                                        <p className="text-sm leading-relaxed text-slate-300">
+                                            {text}
+                                        </p>
+                                    </div>
+                                ))}
+                            </div>
+
+                            {!showAllRoadmap && roadmapEntries.length > 3 && (
+                                <div className="mt-8 flex justify-center">
+                                    <button
+                                        onClick={() => setShowAllRoadmap(true)}
+                                        className="rounded-full border border-[#00CFFF]/30 bg-[#00CFFF]/10 px-6 py-3 text-sm font-bold text-[#00CFFF] transition hover:bg-[#00CFFF]/20"
+                                    >
+                                        Lihat {roadmapEntries.length - 3} Langkah Lainnya
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="rounded-[32px] border border-slate-800 bg-[#171B26]/90 p-6 sm:p-8">
+                            <h3 className="mb-6 text-xl font-bold">
+                                AI CV Feedback
+                            </h3>
+
+                            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                                <div className="rounded-[24px] border border-slate-800 bg-[#0F111A]/70 p-6">
+                                    <h4 className="mb-2 font-bold text-[#00E0FF]">
+                                        ATS Feedback
+                                    </h4>
+                                    <p className="text-sm leading-relaxed text-slate-400">
+                                        {data.cv_feedback.ats_feedback}
+                                    </p>
+                                </div>
+
+                                <div className="rounded-[24px] border border-slate-800 bg-[#0F111A]/70 p-6">
+                                    <h4 className="mb-2 font-bold text-[#00E0FF]">
+                                        Layout Feedback
+                                    </h4>
+                                    <p className="text-sm leading-relaxed text-slate-400">
+                                        {data.cv_feedback.layout_feedback}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div className="mt-6 rounded-[24px] border border-slate-800 bg-[#0F111A]/70 p-6">
+                                <h4 className="mb-4 font-bold text-white">
+                                    Rekomendasi Perbaikan
+                                </h4>
+
+                                <ul className="space-y-3">
+                                    {data.cv_feedback.improvements.map((item, index) => (
+                                        <li
+                                            key={index}
+                                            className="flex gap-3 text-sm leading-relaxed text-slate-400"
+                                        >
+                                            <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-[#00CFFF]"/>
+                                            {item}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+                </section>
+            </main>
+
+            <Footer/>
         </div>
-      </main>
-    </div>
-  );
+    );
 };
 
 export default ResultPage;
