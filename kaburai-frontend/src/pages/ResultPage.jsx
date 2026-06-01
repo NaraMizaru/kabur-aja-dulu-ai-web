@@ -56,7 +56,7 @@ const ResultPage = () => {
                             className="rounded-4xl border border-[#00CFFF]/30 bg-[#171B26]/90 p-8 text-center shadow-[0_0_50px_-18px_rgba(0,207,255,0.55)]">
                             <p className="mb-3 text-sm font-bold text-slate-400">Match Score</p>
                             <div className="mb-3 text-7xl font-black tracking-tight text-[#00E0FF]">
-                                {data.gap_analysis.match_score}/15
+                                {data.gap_analysis.match_score}%
                             </div>
                             <p className="text-sm italic leading-relaxed text-slate-400">
                                 Target role: {data.role}
