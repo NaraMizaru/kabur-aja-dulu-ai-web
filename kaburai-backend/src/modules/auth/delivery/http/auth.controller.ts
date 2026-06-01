@@ -17,6 +17,9 @@ const register = async (req: Request, res: Response) => {
     try {
         const data = await authUseCase.register(result.data);
         return successResponse(res, {
+            user: {
+                full_name: data.user?.user_metadata.full_name,
+            },
             access_token: data.session?.access_token,
         }, "User registered successfully", 201);
     } catch (error: any) {
@@ -36,6 +39,9 @@ const login = async (req: Request, res: Response) => {
         return successResponse(
             res,
             {
+                user: {
+                    full_name: data.user?.user_metadata.full_name,
+                },
                 access_token: data.session.access_token,
             },
             "User logged in successfully",
@@ -57,8 +63,28 @@ const logout = async (req: Request, res: Response) => {
     }
 }
 
+const forgotPassword = async (req: Request, res: Response) => {
+    try {
+        const result = await authUseCase.forgotPassword(req.body);
+        return successResponse(res, result, "Password reset email sent successfully");
+    } catch (error: any) {
+        return errorResponse(res, error.message);
+    }
+}
+
+const resetPassword = async (req: Request, res: Response) => {
+    try {
+        const result = await authUseCase.resetPassword(req.body);
+        return successResponse(res, result, "Password updated successfully");
+    } catch (error: any) {
+        return errorResponse(res, error.message);
+    }
+}
+
 export const authController = {
     register,
     login,
     logout,
+    forgotPassword,
+    resetPassword,
 };

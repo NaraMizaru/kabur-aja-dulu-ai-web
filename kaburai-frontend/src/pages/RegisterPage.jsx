@@ -1,11 +1,59 @@
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import {z} from "zod";
+import {useForm} from "react-hook-form";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {authService} from "../service/auth.service.js";
+import {useAuthStore} from "../store/auth.store.js";
+
+const registerSchema = z.object({
+    full_name: z.string().min(1, "Full name is required"),
+    email: z.email("Email is required"),
+    password: z.string().min(8, "Password must be at least 8 characters"),
+})
 
 const RegisterPage = () => {
+    const navigate = useNavigate();
+    const setAuth = useAuthStore((state) => state.setAuth);
+    const {
+        register,
+        handleSubmit,
+        setError,
+        formState: {errors, isSubmitting}
+    } = useForm({
+        resolver: zodResolver(registerSchema),
+        defaultValues: {
+            full_name: "",
+            email: "",
+            password: "",
+        }
+    })
+
+    const onSubmit = async (values) => {
+        try {
+            const response = await authService.register(values)
+            setAuth({
+                accessToken: response.data.data.access_token,
+                user: response.data.data.user,
+            })
+
+            navigate('/')
+        } catch (error) {
+            const data = error.response.data
+            data.errors.forEach(err => {
+                setError(err.field, {
+                    type: "server",
+                    message: err.message,
+                })
+            })
+        }
+    }
+
     return (
         <div
             className="relative min-h-screen overflow-hidden bg-[#0F111A] px-6 py-8 text-white font-sans antialiased lg:px-10">
-            <div className="absolute left-1/2 top-24 -z-10 h-[420px] w-[420px] -translate-x-1/2 rounded-full bg-[#00CFFF]/10 blur-3xl"/>
-            <div className="absolute bottom-0 right-0 -z-10 h-[320px] w-[320px] rounded-full bg-[#00E0FF]/5 blur-3xl"/>
+            <div
+                className="absolute left-1/2 top-24 -z-10 h-105 w-105 -translate-x-1/2 rounded-full bg-[#00CFFF]/10 blur-3xl"/>
+            <div className="absolute bottom-0 right-0 -z-10 h-80 w-[320px] rounded-full bg-[#00E0FF]/5 blur-3xl"/>
 
             <div className="mx-auto flex max-w-7xl items-center justify-between">
                 <Link to="/" className="text-xl font-extrabold tracking-tight text-white">
@@ -37,7 +85,7 @@ const RegisterPage = () => {
                         </p>
                     </div>
 
-                    <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
+                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
                         <div className="space-y-2">
                             <label className="ml-1 text-sm font-semibold text-slate-300">
                                 Nama Lengkap
@@ -45,8 +93,19 @@ const RegisterPage = () => {
                             <input
                                 type="text"
                                 placeholder="Nama Lengkap"
-                                className="w-full rounded-2xl border border-slate-700 bg-[#0F111A] px-5 py-4 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-[#00CFFF] focus:ring-4 focus:ring-[#00CFFF]/10"
+                                {...register('full_name')}
+                                className={`
+                                    w-full rounded-2xl px-5 py-4 text-sm outline-none transition
+                                    ${errors.full_name ? "border border-red-500 focus:border-red-500" : "border border-slate-700 focus:border-[#00CFFF]"}
+                                    bg-[#0F111A]
+                                `}
                             />
+
+                            {errors.full_name && (
+                                <p className="mt-1 ml-1 text-xs text-red-400">
+                                    {errors.full_name.message}
+                                </p>
+                            )}
                         </div>
 
                         <div className="space-y-2">
@@ -56,8 +115,19 @@ const RegisterPage = () => {
                             <input
                                 type="email"
                                 placeholder="nama@email.com"
-                                className="w-full rounded-2xl border border-slate-700 bg-[#0F111A] px-5 py-4 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-[#00CFFF] focus:ring-4 focus:ring-[#00CFFF]/10"
+                                {...register('email')}
+                                className={`
+                                    w-full rounded-2xl px-5 py-4 text-sm outline-none transition
+                                    ${errors.email ? "border border-red-500 focus:border-red-500" : "border border-slate-700 focus:border-[#00CFFF]"}
+                                    bg-[#0F111A]
+                                `}
                             />
+
+                            {errors.email && (
+                                <p className="mt-1 ml-1 text-xs text-red-400">
+                                    {errors.email.message}
+                                </p>
+                            )}
                         </div>
 
                         <div className="space-y-2">
@@ -67,19 +137,31 @@ const RegisterPage = () => {
                             <input
                                 type="password"
                                 placeholder="••••••••"
-                                className="w-full rounded-2xl border border-slate-700 bg-[#0F111A] px-5 py-4 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-[#00CFFF] focus:ring-4 focus:ring-[#00CFFF]/10"
+                                {...register('password')}
+                                className={`
+                                    w-full rounded-2xl px-5 py-4 text-sm outline-none transition
+                                    ${errors.password ? "border border-red-500 focus:border-red-500" : "border border-slate-700 focus:border-[#00CFFF]"}
+                                    bg-[#0F111A]
+                                `}
                             />
+
+                            {errors.password && (
+                                <p className="mt-1 ml-1 text-xs text-red-400">
+                                    {errors.password.message}
+                                </p>
+                            )}
                         </div>
 
                         <button
+                            type={"submit"}
                             className="w-full rounded-2xl bg-[#00CFFF] py-4 font-extrabold text-[#0F111A] shadow-lg shadow-[#00CFFF]/10 transition hover:bg-[#00E0FF]">
-                            Daftar Akun
+                            {isSubmitting ? 'Memproses...' : 'Daftar Akun'}
                         </button>
                     </form>
 
                     <p className="mt-8 text-center text-sm text-slate-400">
                         Sudah punya akun?{" "}
-                        <Link to="/register" className="font-bold text-[#00CFFF] underline underline-offset-4">
+                        <Link to="/login" className="font-bold text-[#00CFFF] underline underline-offset-4">
                             Masuk
                         </Link>
                     </p>

@@ -1,10 +1,70 @@
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import {authService} from "../service/auth.service.js";
+import {useState} from "react";
+import {z} from "zod";
+import {useForm} from "react-hook-form";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {useAuthStore} from "../store/auth.store.js";
+
+const loginSchema = z.object({
+    email: z.email("Email is required"),
+    password: z.string().min(8, "Password must be at least 8 characters"),
+})
 
 const LoginPage = () => {
+    const navigate = useNavigate();
+    const setAuth = useAuthStore((state) => state.setAuth);
+    const [generalError, setGeneralError] = useState();
+
+    const {
+        register,
+        handleSubmit,
+        setError,
+        formState: {errors, isSubmitting}
+    } = useForm({
+        resolver: zodResolver(loginSchema),
+        defaultValues: {
+            email: "",
+            password: "",
+        }
+    })
+
+    const onSubmit = async (values) => {
+        setGeneralError("")
+
+        try {
+            const response = await authService.login(values)
+
+            setAuth({
+                accessToken: response.data.data.access_token,
+                user: response.data.data.user,
+            })
+
+            navigate('/')
+        } catch (error) {
+            const data = error.response?.data;
+
+            if (data?.errors) {
+                data.errors.forEach((err) => {
+                    setError(err.field, {
+                        type: "server",
+                        message: err.message,
+                    });
+                });
+
+                return;
+            }
+
+            setGeneralError(data?.message || "Login gagal. Silakan coba lagi.");
+        }
+    }
+
     return (
-        <div className="relative min-h-screen overflow-hidden bg-[#0F111A] px-6 py-8 text-white font-sans antialiased lg:px-10">
-            <div className="absolute left-1/2 top-24 -z-10 h-[420px] w-[420px] -translate-x-1/2 rounded-full bg-[#00CFFF]/10 blur-3xl"/>
-            <div className="absolute bottom-0 right-0 -z-10 h-[320px] w-[320px] rounded-full bg-[#00E0FF]/5 blur-3xl"/>
+        <div
+            className="relative min-h-screen overflow-hidden bg-[#0F111A] px-6 py-8 text-white font-sans antialiased lg:px-10">
+            <div
+                className="absolute left-1/2 top-24 -z-10 h-105 w-105 -translate-x-1/2 rounded-full bg-[#00CFFF]/10 blur-3xl"/>
+            <div className="absolute bottom-0 right-0 -z-10 h-80 w-[320px] rounded-full bg-[#00E0FF]/5 blur-3xl"/>
 
             <div className="mx-auto flex max-w-7xl items-center justify-between">
                 <Link to="/" className="text-xl font-extrabold tracking-tight text-white">
@@ -36,7 +96,13 @@ const LoginPage = () => {
                         </p>
                     </div>
 
-                    <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
+                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+                        {generalError && (
+                            <div
+                                className="rounded-2xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm font-medium text-red-300">
+                                {generalError}
+                            </div>
+                        )}
                         <div className="space-y-2">
                             <label className="ml-1 text-sm font-semibold text-slate-300">
                                 Email
@@ -44,8 +110,19 @@ const LoginPage = () => {
                             <input
                                 type="email"
                                 placeholder="nama@email.com"
-                                className="w-full rounded-2xl border border-slate-700 bg-[#0F111A] px-5 py-4 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-[#00CFFF] focus:ring-4 focus:ring-[#00CFFF]/10"
+                                {...register('email')}
+                                className={
+                                    `w-full rounded-2xl px-5 py-4 text-sm outline-none transition 
+                                    ${errors.email ? "border border-red-500 focus:border-red-500" : "border border-slate-700 focus:border-[#00CFFF]"}
+                                    bg-[#0F111A]
+                                `}
                             />
+
+                            {errors.email && (
+                                <p className="mt-1 ml-1 text-xs text-red-400">
+                                    {errors.email.message}
+                                </p>
+                            )}
                         </div>
 
                         <div className="space-y-2">
@@ -55,19 +132,31 @@ const LoginPage = () => {
                             <input
                                 type="password"
                                 placeholder="••••••••"
-                                className="w-full rounded-2xl border border-slate-700 bg-[#0F111A] px-5 py-4 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-[#00CFFF] focus:ring-4 focus:ring-[#00CFFF]/10"
+                                {...register('password')}
+                                className={`
+                                    w-full rounded-2xl px-5 py-4 text-sm outline-none transition
+                                    ${errors.password ? "border border-red-500 focus:border-red-500" : "border border-slate-700 focus:border-[#00CFFF]"}
+                                    bg-[#0F111A]
+                                `}
                             />
+
+                            {errors.password && (
+                                <p className="mt-1 ml-1 text-xs text-red-400">
+                                    {errors.password.message}
+                                </p>
+                            )}
                         </div>
 
                         <div className="flex items-center  text-sm">
-                            <Link to="/reset-password" className="font-semibold text-[#00CFFF] hover:underline">
+                            <Link to="/forgot-password" className="font-semibold text-[#00CFFF] hover:underline">
                                 Lupa password?
                             </Link>
                         </div>
 
                         <button
+                            type={"submit"}
                             className="w-full rounded-2xl bg-[#00CFFF] py-4 font-extrabold text-[#0F111A] shadow-lg shadow-[#00CFFF]/10 transition hover:bg-[#00E0FF]">
-                            Masuk
+                            {isSubmitting ? "Memproses..." : "Masuk"}
                         </button>
                     </form>
 
