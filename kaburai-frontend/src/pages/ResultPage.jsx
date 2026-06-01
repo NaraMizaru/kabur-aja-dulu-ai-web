@@ -1,62 +1,14 @@
 import {useState} from "react";
-import {Link, useLocation} from "react-router-dom";
+import {Link, Navigate, useLocation} from "react-router-dom";
 import Footer from "../components/Footer.jsx";
-
-const dummyResult = {
-    filename: "1780240457490-CV Nadhif Musyafa Alfarel.pdf",
-    role: "Software Engineering",
-    skill_extracted: ["Git", "Kotlin", "Laravel", "MySQL", "Problem Solving", "SQL"],
-    gap_analysis: {
-        match_score: 7,
-        skills_dimiliki: ["SQL"],
-        top_skill_tidak_dimiliki: [
-            "Python",
-            "Communication",
-            "Machine Learning",
-            "R",
-            "AWS",
-            "Excel",
-            "Tableau",
-            "Agile",
-            "Azure",
-            "Spark",
-            "ETL",
-            "Power BI",
-            "Project Management",
-            "Java",
-        ],
-    },
-    roadmap: {
-        1: "Strengthen Kotlin fundamentals and explore Android Jetpack components. (2 weeks)",
-        2: "Deepen Laravel knowledge: explore Eloquent ORM and RESTful API creation. (3 weeks)",
-        3: "Master advanced SQL: learn indexing, optimization, and transaction management. (2 weeks)",
-        4: "Build a full-stack project using Kotlin/Spring Boot (backend) and Flutter (frontend). (6 weeks)",
-        5: "Learn basic cloud deployment (e.g., Heroku, AWS Elastic Beanstalk) for your projects. (2 weeks)",
-        6: "Contribute to open-source projects, focusing on bug fixes and small features. (Ongoing)",
-        7: "Prepare for technical interviews: practice coding challenges on LeetCode/HackerRank. (Ongoing)",
-    },
-    cv_feedback: {
-        ats_score: 0,
-        readability_score: 0,
-        ats_feedback:
-            "CV ini memiliki potensi yang baik untuk di-parse oleh ATS karena menggunakan struktur yang jelas dan umum. Namun, beberapa frasa dalam 'Profil Singkat' dan 'Pengalaman' bisa lebih spesifik dan berorientasi pada kata kunci teknis yang sering dicari ATS.",
-        layout_feedback:
-            "Tata letak CV ini profesional, bersih, dan mudah dibaca. Pembagian kolom yang jelas antara informasi pribadi/profil dan pengalaman/pendidikan sangat efektif.",
-        improvements: [
-            "Tambahkan bagian 'Sertifikasi' jika ada, atau sebutkan kursus relevan yang telah diselesaikan.",
-            "Ubah profil singkat menjadi lebih spesifik dan berbasis kata kunci teknis.",
-            "Deskripsikan kontribusi pengalaman dengan lebih kuantitatif atau spesifik.",
-            "Tambahkan tools seperti Jira, Trello, GitHub Actions, atau CI/CD jika pernah digunakan.",
-            "Tambahkan kata kunci teknis seperti RESTful API jika relevan.",
-        ],
-    },
-};
 
 const ResultPage = () => {
     const location = useLocation();
     const [showAllRoadmap, setShowAllRoadmap] = useState(false);
 
-    const data = location.state || dummyResult;
+    const data = location.state;
+    if (!data) return <Navigate to={'/'} replace={true} />
+
     const roadmapEntries = Object.entries(data.roadmap);
     const displayedRoadmap = showAllRoadmap
         ? roadmapEntries
