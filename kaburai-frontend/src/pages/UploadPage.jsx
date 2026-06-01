@@ -2,6 +2,8 @@ import {Navbar} from "../components/Navbar.jsx";
 import AboutCard from "../components/AboutCard.jsx";
 import Footer from "../components/Footer.jsx";
 import {useNavigate} from "react-router-dom";
+import CvUploadBox from "../components/CvUploadBox.jsx";
+import {extractorService} from "../service/extractor.service.js";
 
 const aboutFeature = [
     {
@@ -24,9 +26,14 @@ const aboutFeature = [
 const UploadPage = () => {
     const navigate = useNavigate();
 
-    const handleResultPage = () => {
-        navigate("/result");
-    }
+    const handleAnalyze = (file) => {
+        navigate("/analyzing", {
+            state: {
+                file,
+                language: "Indonesian",
+            },
+        });
+    };
 
     return (
         <div className="min-h-screen bg-[#0F111A] text-white font-sans antialiased">
@@ -53,38 +60,7 @@ const UploadPage = () => {
                                 dan temukan jalur belajar yang paling efisien.
                             </p>
 
-                            <div
-                                onClick={() => handleResultPage()}
-                                className="group mx-auto w-full max-w-4xl cursor-pointer rounded-[40px] border-2 border-dashed border-slate-700 bg-[#1E2533]/40 p-10 backdrop-blur-sm transition-all duration-300 hover:border-[#00CFFF] hover:bg-[#1E2533]/60 md:p-16"
-                            >
-                                <div className="flex flex-col items-center">
-                                    <div
-                                        className="mb-6 rounded-full bg-[#00CFFF]/10 p-6 text-slate-500 transition-colors group-hover:text-[#00CFFF]">
-                                        <svg
-                                            width="72"
-                                            height="72"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            strokeWidth="1.5"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                        >
-                                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                                            <polyline points="17 8 12 3 7 8"/>
-                                            <line x1="12" y1="3" x2="12" y2="15"/>
-                                        </svg>
-                                    </div>
-
-                                    <h3 className="mb-2 text-xl font-semibold text-slate-100 group-hover:text-white">
-                                        Upload CV Kamu
-                                    </h3>
-
-                                    <p className="text-base text-slate-500 group-hover:text-slate-400 md:text-lg">
-                                        Seret dan letakkan file PDF di sini atau klik untuk mencari file
-                                    </p>
-                                </div>
-                            </div>
+                            <CvUploadBox onAnalyze={handleAnalyze}/>
                         </div>
                     </div>
                 </section>

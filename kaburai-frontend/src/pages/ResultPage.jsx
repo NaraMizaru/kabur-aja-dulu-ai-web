@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {Link} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 import Footer from "../components/Footer.jsx";
 
 const dummyResult = {
@@ -53,9 +53,10 @@ const dummyResult = {
 };
 
 const ResultPage = () => {
+    const location = useLocation();
     const [showAllRoadmap, setShowAllRoadmap] = useState(false);
 
-    const data = dummyResult;
+    const data = location.state || dummyResult;
     const roadmapEntries = Object.entries(data.roadmap);
     const displayedRoadmap = showAllRoadmap
         ? roadmapEntries
@@ -84,7 +85,7 @@ const ResultPage = () => {
 
             <main className="relative mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-10">
                 <div
-                    className="absolute left-1/2 top-20 -z-10 h-[420px] w-[420px] -translate-x-1/2 rounded-full bg-[#00CFFF]/10 blur-3xl"/>
+                    className="absolute left-1/2 top-20 -z-10 h-105 w-105 -translate-x-1/2 rounded-full bg-[#00CFFF]/10 blur-3xl"/>
 
                 <section className="mb-8">
                     <h2 className="max-w-3xl text-3xl font-extrabold tracking-tight text-white sm:text-4xl lg:text-5xl">
@@ -100,17 +101,17 @@ const ResultPage = () => {
                 <section className="grid grid-cols-1 gap-6 lg:grid-cols-12">
                     <aside className="space-y-6 lg:col-span-4">
                         <div
-                            className="rounded-[32px] border border-[#00CFFF]/30 bg-[#171B26]/90 p-8 text-center shadow-[0_0_50px_-18px_rgba(0,207,255,0.55)]">
+                            className="rounded-4xl border border-[#00CFFF]/30 bg-[#171B26]/90 p-8 text-center shadow-[0_0_50px_-18px_rgba(0,207,255,0.55)]">
                             <p className="mb-3 text-sm font-bold text-slate-400">Match Score</p>
                             <div className="mb-3 text-7xl font-black tracking-tight text-[#00E0FF]">
-                                {data.gap_analysis.match_score}/10
+                                {data.gap_analysis.match_score}/15
                             </div>
                             <p className="text-sm italic leading-relaxed text-slate-400">
                                 Target role: {data.role}
                             </p>
                         </div>
 
-                        <div className="rounded-[32px] border border-slate-800 bg-[#171B26]/90 p-7">
+                        <div className="rounded-4xl border border-slate-800 bg-[#171B26]/90 p-7">
                             <h3 className="mb-5 flex items-center gap-3 text-lg font-bold">
                                 <span className="h-6 w-1.5 rounded-full bg-[#00CFFF]"/>
                                 Skill Terdeteksi
@@ -128,7 +129,7 @@ const ResultPage = () => {
                             </div>
                         </div>
 
-                        <div className="rounded-[32px] border border-slate-800 bg-[#171B26]/90 p-7">
+                        <div className="rounded-4xl border border-slate-800 bg-[#171B26]/90 p-7">
                             <h3 className="mb-5 flex items-center gap-3 text-lg font-bold">
                                 <span className="h-6 w-1.5 rounded-full bg-emerald-400"/>
                                 Skill Paling Sesuai
@@ -170,6 +171,50 @@ const ResultPage = () => {
 
                     <section className="space-y-6 lg:col-span-8">
                         <div className="rounded-[32px] border border-slate-800 bg-[#171B26]/90 p-6 sm:p-8">
+                            <h3 className="mb-6 text-xl font-bold">
+                                AI CV Feedback
+                            </h3>
+
+                            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                                <div className="rounded-3xl border border-slate-800 bg-[#0F111A]/70 p-6">
+                                    <h4 className="mb-2 font-bold text-[#00E0FF]">
+                                        ATS Feedback
+                                    </h4>
+                                    <p className="text-sm leading-relaxed text-slate-400">
+                                        {data.cv_feedback.ats_feedback}
+                                    </p>
+                                </div>
+
+                                <div className="rounded-3xl border border-slate-800 bg-[#0F111A]/70 p-6">
+                                    <h4 className="mb-2 font-bold text-[#00E0FF]">
+                                        Layout Feedback
+                                    </h4>
+                                    <p className="text-sm leading-relaxed text-slate-400">
+                                        {data.cv_feedback.layout_feedback}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div className="mt-6 rounded-3xl border border-slate-800 bg-[#0F111A]/70 p-6">
+                                <h4 className="mb-4 font-bold text-white">
+                                    Rekomendasi Perbaikan
+                                </h4>
+
+                                <ul className="space-y-3">
+                                    {data.cv_feedback.improvements.map((item, index) => (
+                                        <li
+                                            key={index}
+                                            className="flex gap-3 text-sm leading-relaxed text-slate-400"
+                                        >
+                                            <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-[#00CFFF]"/>
+                                            {item}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div className="rounded-4xl border border-slate-800 bg-[#171B26]/90 p-6 sm:p-8">
                             <h3 className="mb-8 text-xl font-bold">
                                 Roadmap Pengembangan Karier
                             </h3>
@@ -203,50 +248,6 @@ const ResultPage = () => {
                                     </button>
                                 </div>
                             )}
-                        </div>
-
-                        <div className="rounded-[32px] border border-slate-800 bg-[#171B26]/90 p-6 sm:p-8">
-                            <h3 className="mb-6 text-xl font-bold">
-                                AI CV Feedback
-                            </h3>
-
-                            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                                <div className="rounded-[24px] border border-slate-800 bg-[#0F111A]/70 p-6">
-                                    <h4 className="mb-2 font-bold text-[#00E0FF]">
-                                        ATS Feedback
-                                    </h4>
-                                    <p className="text-sm leading-relaxed text-slate-400">
-                                        {data.cv_feedback.ats_feedback}
-                                    </p>
-                                </div>
-
-                                <div className="rounded-[24px] border border-slate-800 bg-[#0F111A]/70 p-6">
-                                    <h4 className="mb-2 font-bold text-[#00E0FF]">
-                                        Layout Feedback
-                                    </h4>
-                                    <p className="text-sm leading-relaxed text-slate-400">
-                                        {data.cv_feedback.layout_feedback}
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div className="mt-6 rounded-[24px] border border-slate-800 bg-[#0F111A]/70 p-6">
-                                <h4 className="mb-4 font-bold text-white">
-                                    Rekomendasi Perbaikan
-                                </h4>
-
-                                <ul className="space-y-3">
-                                    {data.cv_feedback.improvements.map((item, index) => (
-                                        <li
-                                            key={index}
-                                            className="flex gap-3 text-sm leading-relaxed text-slate-400"
-                                        >
-                                            <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-[#00CFFF]"/>
-                                            {item}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
                         </div>
                     </section>
                 </section>
