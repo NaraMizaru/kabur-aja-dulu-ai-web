@@ -221,6 +221,7 @@ docker run -p 3000:3000 \
 | Method | Endpoint | Deskripsi |
 |---|---|---|
 | `POST` | `/api/extractor/extract` | Upload CV (PDF) dan jalankan analisis lengkap |
+| `GET` | `/api/extractor/health` | Untuk mengaktifkan API AI, dan juga melihat status AI |
 
 **Request Body** (`multipart/form-data`):
 ```
