@@ -27,13 +27,6 @@ export const Navbar = () => {
                                 {user.full_name}
                             </span>
 
-                            <Link
-                                to="/history"
-                                className="rounded-full bg-[#00CFFF] px-4 py-2 text-xs font-bold text-[#0F111A] transition hover:bg-[#00E0FF] sm:px-5 sm:text-sm"
-                            >
-                                Riwayat
-                            </Link>
-
                             <button
                                 onClick={handleLogout}
                                 className="rounded-full border border-slate-700 px-4 py-2 text-xs font-semibold text-slate-300 transition hover:border-[#00CFFF] hover:text-white sm:px-5 sm:text-sm"
