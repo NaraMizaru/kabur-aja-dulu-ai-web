@@ -4,6 +4,7 @@ import Footer from "../components/Footer.jsx";
 import {useNavigate} from "react-router-dom";
 import CvUploadBox from "../components/CvUploadBox.jsx";
 import {extractorService} from "../service/extractor.service.js";
+import { useEffect } from "react";
 
 const aboutFeature = [
     {
@@ -25,6 +26,10 @@ const aboutFeature = [
 
 const UploadPage = () => {
     const navigate = useNavigate();
+    
+    useEffect(() => {
+      extractorService.health()
+    }, [])
 
     const handleAnalyze = (file) => {
         navigate("/analyzing", {

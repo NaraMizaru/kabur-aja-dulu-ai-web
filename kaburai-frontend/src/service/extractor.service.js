@@ -13,6 +13,11 @@ const extract = async ({file, language = "English"}) => {
     });
 };
 
+const health = async () => {
+  return api.get('/extractor/health')
+}
+
 export const extractorService = {
     extract,
+    health
 }
