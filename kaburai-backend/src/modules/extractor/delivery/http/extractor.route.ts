@@ -6,5 +6,6 @@ import {auth} from "../../../../middlewares/auth";
 const router = Router();
 
 router.post("/extract", auth, upload.single("file"), extractorController.extract);
+router.get('/health', extractorController.health);
 
 export const extractorRoute = router;

@@ -100,10 +100,23 @@ const cvFeedback = async (file: Express.Multer.File, language = "English") => {
     };
 };
 
+const health = async () => {
+  const aiApiUrl = process.env.KABURAJADULU_AI_API_URL;
+  const baseUrl = new URL(aiApiUrl as string).origin;
+  
+  const result = await axios.get(`${baseUrl}/health`);
+  if (result.status !== 200) {
+    throw new Error('Api not healthy')
+  }
+
+  return result.data
+}
+
 export const kaburajaduluAiGateway = {
     extractSkills,
     gapAnalysis,
     predict,
     roadmap,
-    cvFeedback
+    cvFeedback,
+    health
 }

@@ -1,6 +1,7 @@
 import {Request, Response} from "express";
 import {extractorUseCase} from "../../usecase/extractor.usecase";
 import {errorResponse, successResponse} from "../../../../utils/response";
+import { healthUseCase } from "../../usecase/health.usecase";
 
 const extract = async (req: Request, res: Response) => {
     try {
@@ -17,6 +18,17 @@ const extract = async (req: Request, res: Response) => {
     }
 };
 
+const health = async (req: Request, res: Response) => {
+  try {
+    const data = await healthUseCase.ai()
+
+    return successResponse(res, data, "AI Healthy")
+  } catch (error: any) {
+    return errorResponse(res, error.message)
+  }
+}
+
 export const extractorController = {
-    extract,
+  extract,
+  health
 };
