@@ -76,13 +76,13 @@ const UploadPage = () => {
                             <h2 className="mb-4 text-4xl font-bold tracking-tight md:text-5xl">
                                 Kenapa{" "}
                                 <span className="text-[#00CFFF]">
-                                    KaburAjaDulu AI?
+                                    NextStep?
                                 </span>
                             </h2>
 
                             <p className="text-lg leading-relaxed text-slate-400">
                                 Banyak orang bingung harus belajar apa setelah membuat CV.
-                                KaburAjaDulu AI membantu menganalisis kemampuanmu dan memberikan
+                                NextStep membantu menganalisis kemampuanmu dan memberikan
                                 roadmap belajar yang jelas berdasarkan target karier.
                             </p>
                         </div>

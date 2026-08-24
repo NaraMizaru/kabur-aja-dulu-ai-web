@@ -59,7 +59,7 @@ const RegisterPage = () => {
           to="/"
           className="text-xl font-extrabold tracking-tight text-white"
         >
-          KaburAjaDulu<span className="text-[#00CFFF]">.Ai</span>
+          NextStep<span className="text-[#00CFFF]">.Ai</span>
         </Link>
 
         <Link

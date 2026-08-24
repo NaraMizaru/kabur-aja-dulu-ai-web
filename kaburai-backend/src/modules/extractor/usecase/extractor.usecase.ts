@@ -1,5 +1,5 @@
 import {pdfService} from "../services/pdf.service";
-import {kaburajaduluAiGateway} from "../gateway/kaburajadulu-ai.gateway";
+import {NextStepAiGateway} from "../gateway/NextStep-ai.gateway";
 
 const extract = async (file: Express.Multer.File, language?: string) => {
     if (!file) {
@@ -7,11 +7,11 @@ const extract = async (file: Express.Multer.File, language?: string) => {
     }
 
     const text = await pdfService.extractText(file.path);
-    const skillExtracted = await kaburajaduluAiGateway.extractSkills(text);
-    const rolePredict = await kaburajaduluAiGateway.predict(skillExtracted);
-    const gapAnalysis = await kaburajaduluAiGateway.gapAnalysis(rolePredict, skillExtracted);
-    const roadmap = await kaburajaduluAiGateway.roadmap(text, skillExtracted, rolePredict, language);
-    const feedback = await kaburajaduluAiGateway.cvFeedback(file, language);
+    const skillExtracted = await NextStepAiGateway.extractSkills(text);
+    const rolePredict = await NextStepAiGateway.predict(skillExtracted);
+    const gapAnalysis = await NextStepAiGateway.gapAnalysis(rolePredict, skillExtracted);
+    const roadmap = await NextStepAiGateway.roadmap(text, skillExtracted, rolePredict, language);
+    const feedback = await NextStepAiGateway.cvFeedback(file, language);
 
     return {
         filename: file.filename,

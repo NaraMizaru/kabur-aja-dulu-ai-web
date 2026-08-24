@@ -22,7 +22,7 @@ const ResultPage = () => {
                         <Link
                             to={'/'}
                             className="text-base font-extrabold tracking-tight text-white sm:text-xl">
-                            KaburAjaDulu<span className="text-[#00CFFF]">.Ai</span>
+                            NextStep<span className="text-[#00CFFF]">.Ai</span>
                         </Link>
                     </div>
 

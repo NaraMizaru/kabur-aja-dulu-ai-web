@@ -17,7 +17,7 @@ export const Navbar = () => {
         <header className="sticky top-0 z-50 border-b border-slate-800/70 bg-[#0F111A]/80 backdrop-blur-xl">
             <nav className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-10">
                 <Link to="/" className="text-base font-extrabold tracking-tight text-white sm:text-xl">
-                    KaburAjaDulu<span className="text-[#00CFFF]">.Ai</span>
+                    NextStep<span className="text-[#00CFFF]">.Ai</span>
                 </Link>
 
                 <div className="flex items-center gap-2 sm:gap-3">

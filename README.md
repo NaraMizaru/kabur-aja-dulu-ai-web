@@ -1,4 +1,4 @@
-# KaburAjaDulu AI 🚀
+# NextStep 🚀
 
 Platform analisis CV berbasis AI yang membantu kamu mengidentifikasi *skill gap*, memprediksi role yang sesuai, dan membuat **roadmap karier** yang terstruktur — hanya dengan mengunggah CV dalam format PDF.
 
@@ -59,7 +59,7 @@ graph TD
     A[User Upload CV PDF] --> B[AnalyzingPage]
     B --> C[POST /api/extractor/extract]
     C --> D[PDF → Text via pdf-parse]
-    D --> E[Extract Skills via KaburAjaDulu AI API]
+    D --> E[Extract Skills via NextStep API]
     E --> F[Predict Role]
     F --> G[Gap Analysis]
     G --> H[Generate Roadmap]
@@ -79,7 +79,7 @@ Pastikan kamu sudah menginstal:
 - [Node.js](https://nodejs.org/) v18+ (atau [Bun](https://bun.sh/) sebagai alternatif)
 - [npm](https://www.npmjs.com/)
 - Akun [Supabase](https://supabase.com/) (untuk Auth & Database)
-- Akses ke **KaburAjaDulu AI API** (API internal untuk analisis CV)
+- Akses ke **NextStep API** (API internal untuk analisis CV)
 
 ---
 
@@ -110,8 +110,8 @@ SUPABASE_KEY=<your-supabase-anon-or-service-role-key>
 # Database PostgreSQL (dari Supabase atau instance sendiri)
 DATABASE_URL=postgresql://postgres:<password>@<host>:5432/<database>
 
-# KaburAjaDulu AI API (API utama untuk analisis skill)
-KABURAJADULU_AI_API_URL=https://<url-api-ai-kamu>
+# NextStep API (API utama untuk analisis skill)
+NextStep_AI_API_URL=https://<url-api-ai-kamu>
 
 # Port backend (opsional, default: 3000)
 PORT=3000
@@ -199,7 +199,7 @@ docker run -p 3000:3000 \
   -e SUPABASE_URL=<your-supabase-url> \
   -e SUPABASE_KEY=<your-supabase-key> \
   -e DATABASE_URL=<your-database-url> \
-  -e KABURAJADULU_AI_API_URL=<your-ai-api-url> \
+  -e NextStep_AI_API_URL=<your-ai-api-url> \
   kaburai-backend
 ```
 
@@ -283,7 +283,7 @@ kaburai-backend/
 │   │   └── extractor/          # Modul analisis CV
 │   │       ├── delivery/       # Handler HTTP
 │   │       ├── domain/         # Schema & tipe data
-│   │       ├── gateway/        # Integrasi KaburAjaDulu AI API
+│   │       ├── gateway/        # Integrasi NextStep API
 │   │       ├── services/       # PDF parsing service
 │   │       └── usecase/        # Business logic (orchestration)
 │   ├── routes/

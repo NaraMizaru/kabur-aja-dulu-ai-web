@@ -1,7 +1,7 @@
-import { kaburajaduluAiGateway } from "../gateway/kaburajadulu-ai.gateway"
+import { NextStepAiGateway } from "../gateway/NextStep-ai.gateway"
 
 const ai = async () => {
-  const health = await kaburajaduluAiGateway.health();
+  const health = await NextStepAiGateway.health();
 
   return health
 }

@@ -45,7 +45,7 @@ const ForgotPasswordPage = () => {
 
             <div className="mx-auto flex max-w-7xl items-center justify-between">
                 <Link to="/" className="text-xl font-extrabold tracking-tight text-white">
-                    KaburAjaDulu<span className="text-[#00CFFF]">.Ai</span>
+                    NextStep<span className="text-[#00CFFF]">.Ai</span>
                 </Link>
 
                 <Link

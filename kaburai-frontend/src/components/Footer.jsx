@@ -5,7 +5,7 @@ const Footer = () => {
                 <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
                     <div>
                         <h3 className="mb-4 text-2xl font-extrabold text-white">
-                            KaburAjaDulu
+                            NextStep
                             <span className="text-[#00CFFF]">.Ai</span>
                         </h3>
 
@@ -20,7 +20,7 @@ const Footer = () => {
                 <div
                     className="mt-12 flex flex-col gap-4 border-t border-slate-800 pt-8 text-sm text-slate-500 text-center md:flex-row md:items-center md:justify-between">
                     <p>
-                        © {new Date().getFullYear()} KaburAjaDulu.Ai. All rights reserved.
+                        © {new Date().getFullYear()} NextStep.Ai. All rights reserved.
                     </p>
 
                     <p>

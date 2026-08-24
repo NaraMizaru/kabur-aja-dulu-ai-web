@@ -15,7 +15,7 @@ export const useAuthStore = create(
         set({ accessToken: null, refreshToken: null, user: null }),
     }),
     {
-      name: "kaburajadulu-ai-auth",
+      name: "NextStep-ai-auth",
     },
   ),
 );
