@@ -1,5 +1,5 @@
-import {pdfService} from "../services/pdf.service";
-import {NextStepAiGateway} from "../gateway/NextStep-ai.gateway";
+import { pdfService } from "../services/pdf.service";
+import { NextStepAiGateway } from "../gateway/kaburajadulu-ai.gateway";
 
 const extract = async (file: Express.Multer.File, language?: string) => {
     if (!file) {
